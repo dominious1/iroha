@@ -20,11 +20,13 @@ void Tx::addCommand(const iroha::protocol::Command& command)
 
 Tx& Tx::addAssetQuantity(
         const std::string& asset_id,
-        const std::string& amount)
+        const std::string& amount,
+        const std::string& description)
 {
     auto cmd = cmd_generator_.generateAddAssetQuantity(
                 asset_id,
-                amount);
+                amount,
+                description);
     addCommand(*cmd);
     return *this;
 }
@@ -143,6 +145,17 @@ Tx& Tx::removePeer(const std::string& pubkey)
     return *this;
 }
 
+Tx& Tx::removeSignatory(
+        const std::string& account_id,
+        const std::string& pubkey)
+{
+    auto cmd = cmd_generator_.generateRemoveSignatory(
+                account_id,
+                pubkey);
+    addCommand(*cmd);
+    return *this;
+}
+
 Tx& Tx::revokePermission(
         const std::string& account_id,
         const iroha::protocol::GrantablePermission permission)
@@ -180,11 +193,13 @@ Tx& Tx::setAccountQuorum(
 
 Tx& Tx::subtractAssetQuantity(
         const std::string& asset_id,
-        const std::string& amount)
+        const std::string& amount,
+        const std::string& description)
 {
     auto cmd = cmd_generator_.generateSubtractAssetQuantity(
                 asset_id,
-                amount);
+                amount,
+                description);
     addCommand(*cmd);
     return *this;
 }
